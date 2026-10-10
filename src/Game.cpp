@@ -10,12 +10,20 @@ Game::Game(sf::RenderWindow& game_window)
 
 Game::~Game()
 {
-
+	delete [] animals;
+	delete [] passports;
+	delete character;
+	delete passport;
 }
 
 // We call this once after the game class is instantiated
 bool Game::init()
 {
+	
+	character = new sf::Sprite(animals[0]);
+	passport = new sf::Sprite(passports[0]);
+
+
 
   return true;
 }

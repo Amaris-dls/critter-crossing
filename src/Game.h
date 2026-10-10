@@ -23,6 +23,11 @@ class Game
   sf::Texture background_texture;
   sf::Sprite background = sf::Sprite(background_texture);
 
+  sf::Sprite* character;
+  sf::Sprite* passport;
+  sf::Texture* animals = new sf::Texture[3];
+  sf::Texture* passports = new sf::Texture[3];
+
 };
 
 #endif // SFML_GAME_H
