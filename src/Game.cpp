@@ -30,7 +30,7 @@ bool Game::init()
 	passport = new sf::Sprite(passports[0]);
 
 	should_accept = false;
-
+D:\critter - crossing\Data\Images\WhackaMole Worksheet\background.png
 
 
 	newAnimal();
@@ -69,6 +69,15 @@ void Game::newAnimal() {
 	passport->setTexture(passports[passport_index]);
 	passport_index->setScale({ 0.6, 0.6 });
 	passport->setPosition(sf::Vector2(window.getSize().x / 2, window.getSize().y / 2));
+}
+
+void Game::dragSprite(sf::Sprite* sprite) {
+	if (sprite != nullptr) {
+		sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
+		sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+		sf::Vector2f drag_position = mouse_positionf - drag_offset;
+		sprite->setPosition({ drag_posiion.x, drag_position.y });
+	}
 }
 
 //Called by event polling when a MouseButtonPressed event is found
