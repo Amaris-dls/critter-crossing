@@ -23,7 +23,7 @@ bool GameObject::initialiseSprite(sf::Texture& texture, std::string filename)
   visibility = true;
   return true;
 }
-sf::Sprite* GameObject::getSprite()
+sf::Sprite& GameObject::getSprite() const
 {
-  return sprite;
+  return *sprite;
 }
