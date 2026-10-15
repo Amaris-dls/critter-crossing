@@ -166,12 +166,12 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 			drag_offset = click - passport->getPosition();
 		}
 		
-		else if(accept_button->getGlobalBounds().contains(click_control)){
+		if(accept_button->getGlobalBounds().contains(click_control)){
 			clicked_button = true;
 			passport_accepted = true;
 			
 		}
-		else if(reject_button->getGlobalBounds().contains(click_control)){
+		if(reject_button->getGlobalBounds().contains(click_control)){
 			clicked_button = true;
 			passport_rejected = true;
 		}
@@ -206,6 +206,7 @@ void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 				newAnimal();
 				passport_accepted = false;
 				passport_rejected = false;
+				clicked_button = false;
 			}
 		}
 		
