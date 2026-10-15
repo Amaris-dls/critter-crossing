@@ -22,12 +22,14 @@ bool Game::init()
 	animals[0].loadFromFile("../Data/Images/Critter Crossing/elephant.png");
 	animals[1].loadFromFile("../Data/Images/Critter Crossing/moose.png");
 	animals[2].loadFromFile("../Data/Images/Critter Crossing/penguin.png");
-	passports[0].LoadFromFile("../Data/Images/Critter Crossing/elephant passport.png");
-	passports[1].LoadFromFile("../Data/Images/Critter Crossing/moose passport.png");
-	passports[2].LoadFromFile("../Data/Images/Critter Crossing/penguin passport.png");
+	passports[0].loadFromFile("../Data/Images/Critter Crossing/elephant passport.png");
+	passports[1].loadFromFile("../Data/Images/Critter Crossing/moose passport.png");
+	passports[2].loadFromFile("../Data/Images/Critter Crossing/penguin passport.png");
 	
 	character = new sf::Sprite(animals[0]);
 	passport = new sf::Sprite(passports[0]);
+	background_texture.loadFromFile("../Data/Images/WhackaMole Worksheet/background.png");
+	background = sf::Sprite(background_texture);
 
 	should_accept = false;
 
@@ -48,8 +50,10 @@ void Game::update(float dt)
 // Runs after update, use it to tell the window what to draw this frame
 void Game::render()
 {
-	window.draw(*character.getSprite());
-	window.draw(*passport.getSprite());
+	//window.draw(background);
+	window.draw(*character);
+	window.draw(*passport);
+	
 }
 
 void Game::newAnimal() {
@@ -64,11 +68,13 @@ void Game::newAnimal() {
 	}
 	character->setTexture(animals[animal_index], true);
 	character->setScale({ 1.8, 1.8 });
-	character->setPosition(sf::Vector2(window.getSize().x / 12, window.getSize().y / 12));
+	//character->setPosition(sf::Vector2(window.getSize().x / 12, window.getSize().y / 12));
+	character->setPosition(sf::Vector2f(window.getSize().x / 12, window.getSize().y / 12));
 
 	passport->setTexture(passports[passport_index]);
-	passport_index->setScale({ 0.6, 0.6 });
-	passport->setPosition(sf::Vector2(window.getSize().x / 2, window.getSize().y / 2));
+	passport->setScale({ 0.6, 0.6 });
+	//passport->setPosition(sf::Vector2(window.getSize().x / 2, window.getSize().y / 2));
+	passport->setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 }
 
 //Called by event polling when a MouseButtonPressed event is found
