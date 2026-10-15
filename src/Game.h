@@ -3,6 +3,7 @@
 #define SFML_GAME_H
 
 #include <SFML/Graphics.hpp>
+#include <GameObject.h>
 
 class Game
 {
@@ -27,6 +28,7 @@ class Game
   sf::Sprite* passport;
   sf::Texture* animals = new sf::Texture[3];
   sf::Texture* passports = new sf::Texture[3];
+  bool should_accept;
 
 };
 

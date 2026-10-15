@@ -19,11 +19,21 @@ Game::~Game()
 // We call this once after the game class is instantiated
 bool Game::init()
 {
+	animals[0].loadFromFile("../Data/Images/Critter Crossing/elephant.png");
+	animals[1].loadFromFile("../Data/Images/Critter Crossing/moose.png");
+	animals[2].loadFromFile("../Data/Images/Critter Crossing/penguin.png");
+	passports[0].LoadFromFile("../Data/Images/Critter Crossing/elephant passport.png");
+	passports[1].LoadFromFile("../Data/Images/Critter Crossing/moose passport.png");
+	passports[2].LoadFromFile("../Data/Images/Critter Crossing/penguin passport.png");
 	
 	character = new sf::Sprite(animals[0]);
 	passport = new sf::Sprite(passports[0]);
 
+	should_accept = false;
 
+
+
+	newAnimal();
 
   return true;
 }
@@ -32,13 +42,33 @@ bool Game::init()
 // use it for everything that needs to update between frames
 void Game::update(float dt)
 {
-
+	
 }
 
 // Runs after update, use it to tell the window what to draw this frame
 void Game::render()
 {
+	window.draw(*character.getSprite());
+	window.draw(*passport.getSprite());
+}
 
+void Game::newAnimal() {
+	int animal_index = rand() % 3;
+	int passport_index = rand() % 3;
+
+	if (animal_index == passport_index) {
+		should_accept = true;
+	}
+	else {
+		should_accept = false;
+	}
+	character->setTexture(animals[animal_index], true);
+	character->setScale({ 1.8, 1.8 });
+	character->setPosition(sf::Vector2(window.getSize().x / 12, window.getSize().y / 12));
+
+	passport->setTexture(passports[passport_index]);
+	passport_index->setScale({ 0.6, 0.6 });
+	passport->setPosition(sf::Vector2(window.getSize().x / 2, window.getSize().y / 2));
 }
 
 //Called by event polling when a MouseButtonPressed event is found

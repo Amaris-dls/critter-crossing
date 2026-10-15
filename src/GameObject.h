@@ -10,13 +10,14 @@ class GameObject
   GameObject();
   ~GameObject();
   bool initialiseSprite(sf::Texture& texture, std::string filename);
-  sf::Sprite* getSprite();
+  sf::Sprite& getSprite() const;
   bool visibility;
   int speed;
 
 
  //private:
   sf::Sprite* sprite = nullptr;
+  void SetTexture(std::string text_path) { texture.loadFromFile(text_path) };
 };
 
 
