@@ -17,19 +17,47 @@ class Game
   void keyPressed(const sf::Event::KeyPressed* event);
   void keyReleased(const sf::Event::KeyReleased* event);
   void newAnimal();
+  void dragSprite(sf::Sprite* sprite);
 
  private:
   sf::RenderWindow& window;
+  sf::Font* font = new sf::Font();
   
-  sf::Texture background_texture;
-  sf::Sprite background = sf::Sprite(background_texture);
+  sf::Texture* background_texture;
+  sf::Sprite* background;
 
   sf::Sprite* character;
   sf::Sprite* passport;
   sf::Texture* animals = new sf::Texture[3];
   sf::Texture* passports = new sf::Texture[3];
+
+  sf::Texture* accept_button_texture;
+  sf::Texture* reject_button_texture;
+  sf::Sprite* accept_button;
+  sf::Sprite* reject_button;
+  sf::Texture* accept;
+  sf::Texture* reject;
+  sf::Sprite* accept_sprite;
+  sf::Sprite* reject_sprite;
+  bool context_show = false;
+  sf::Vector2f clickr;
+  bool passport_accepted;
+  bool passport_rejected;
+  sf::Vector2f click_control;
+  sf::Vector2i mouse_position_control;
+
   sf::Sprite* dragged = nullptr;
+  sf::Vector2i mouse_position;
+  sf::Vector2f mouse_positionf;
+  sf::Vector2f drag_offset;
+  sf::Vector2f drag_position;
+  sf::Vector2f click;
   bool should_accept;
+  bool clicked_button = false;  
+
+  sf::Text* result_text;
+  bool show_text = false;
+  
 
 };
 

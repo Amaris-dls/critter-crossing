@@ -1,5 +1,6 @@
 
 #include "Game.h"
+#include <filesystem>
 #include <iostream>
 
 Game::Game(sf::RenderWindow& game_window)
@@ -10,15 +11,29 @@ Game::Game(sf::RenderWindow& game_window)
 
 Game::~Game()
 {
+	delete font;
 	delete [] animals;
 	delete [] passports;
 	delete character;
 	delete passport;
+	delete result_text;
+	delete background_texture;
+	delete accept_button_texture;
+	delete reject_button_texture;
+	delete accept;
+	delete reject;
+	delete accept_button;
+	delete reject_button;
 }
 
 // We call this once after the game class is instantiated
 bool Game::init()
 {
+	if (!font->openFromFile("../Data/Fonts/open-sans/openSans-Regular.ttf"))
+	{
+		std::cerr << "Failed to load font" << std::endl;
+		return false;
+	}
 	animals[0].loadFromFile("../Data/Images/Critter Crossing/elephant.png");
 	animals[1].loadFromFile("../Data/Images/Critter Crossing/moose.png");
 	animals[2].loadFromFile("../Data/Images/Critter Crossing/penguin.png");
@@ -28,13 +43,39 @@ bool Game::init()
 	
 	character = new sf::Sprite(animals[0]);
 	passport = new sf::Sprite(passports[0]);
-	background_texture.loadFromFile("../Data/Images/WhackaMole Worksheet/background.png");
-	background = sf::Sprite(background_texture);
+	background_texture = new sf::Texture();
+	background_texture->loadFromFile("../Data/Images/WhackaMole Worksheet/background.png");
+	background = new sf::Sprite(*background_texture);
+
+	accept_button_texture = new sf::Texture();
+	accept_button_texture->loadFromFile("../Data/Images/Critter Crossing/accept button.png");
+	accept_button = new sf::Sprite(*accept_button_texture);
+	accept_button->setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2 - 320));
+	reject_button_texture = new sf::Texture();
+	reject_button_texture->loadFromFile("../Data/Images/Critter Crossing/reject button.png");
+	reject_button = new sf::Sprite(*reject_button_texture);
+	reject_button->setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2 - 200));
+	context_show = false;
+	dragged = nullptr;
+
+	accept = new sf::Texture();
+	accept->loadFromFile("../Data/Images/Critter Crossing/accept.png");
+	accept_sprite = new sf::Sprite(*accept);
+	reject = new sf::Texture();
+	reject->loadFromFile("../Data/Images/Critter Crossing/reject.png");
+	reject_sprite = new sf::Sprite(*reject);
+	passport_accepted = false;
+	passport_rejected = false;
+	clicked_button = false;
+	show_text = false;
+	
+	result_text = new sf::Text(*font, "You have guessed correctly!", 30);
+	//result_text->setFont(*font);
+	//result_text->setString("You have guessed correctly!");
+	result_text->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
+
 
 	should_accept = false;
-D:\critter - crossing\Data\Images\WhackaMole Worksheet\background.png
-
-
 	newAnimal();
 
   return true;
@@ -44,7 +85,7 @@ D:\critter - crossing\Data\Images\WhackaMole Worksheet\background.png
 // use it for everything that needs to update between frames
 void Game::update(float dt)
 {
-	
+	dragSprite(dragged);
 }
 
 // Runs after update, use it to tell the window what to draw this frame
@@ -54,6 +95,22 @@ void Game::render()
 	window.draw(*character);
 	window.draw(*passport);
 	
+	if(context_show == true && clicked_button == false){
+		window.draw(*accept_button);
+		window.draw(*reject_button);
+	}
+	if(passport_accepted == true){
+		accept_sprite->setPosition(sf::Vector2f(passport->getPosition().x, passport->getPosition().y));
+		window.draw(*accept_sprite);
+	}
+	if(passport_rejected == true){
+		reject_sprite->setPosition(sf::Vector2f(passport->getPosition().x, passport->getPosition().y));
+		window.draw(*reject_sprite);
+	}
+	if(show_text == true){
+		window.draw(*result_text);
+	}
+
 }
 
 void Game::newAnimal() {
@@ -69,28 +126,29 @@ void Game::newAnimal() {
 	character->setTexture(animals[animal_index], true);
 	character->setScale({ 1.8, 1.8 });
 	//character->setPosition(sf::Vector2(window.getSize().x / 12, window.getSize().y / 12));
-	character->setPosition(sf::Vector2f(window.getSize().x / 12, window.getSize().y / 12));
+	character->setPosition(sf::Vector2f(window.getSize().x / 12 - 50, window.getSize().y / 12));
 
 	passport->setTexture(passports[passport_index]);
 	passport->setScale({ 0.6, 0.6 });
 	//passport->setPosition(sf::Vector2(window.getSize().x / 2, window.getSize().y / 2));
-	passport->setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
+	passport->setPosition(sf::Vector2f(window.getSize().x / 2 , window.getSize().y / 2 - 50));
 }
 
 void Game::dragSprite(sf::Sprite* sprite) {
 	if (sprite != nullptr) {
-		sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
-		sf::Vector2f mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
-		sf::Vector2f drag_position = mouse_positionf - drag_offset;
-		sprite->setPosition({ drag_posiion.x, drag_position.y });
+		mouse_position = sf::Mouse::getPosition(window);
+		mouse_positionf = static_cast<sf::Vector2f>(mouse_position);
+		drag_position = mouse_positionf - drag_offset;
+		sprite->setPosition({ drag_position.x, drag_position.y });
 	}
 }
+
+
 
 //Called by event polling when a MouseButtonPressed event is found
 void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 {
 	// Event contains mouse position and which button was clicked
-
 	// Don't need to extract position to a variable like this, this is just to show you it's a Vector2i
 	sf::Vector2i position = event->position;
 
@@ -98,6 +156,34 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 	if (event->button == sf::Mouse::Button::Left)
 	{
 		//Left mouse button was pressed
+		click = static_cast<sf::Vector2f>(position);
+		mouse_position = sf::Mouse::getPosition(window);
+		click_control = static_cast<sf::Vector2f>(position);
+		mouse_position_control = sf::Mouse::getPosition(window);
+		if(passport->getGlobalBounds().contains(click)){
+			std::cout << "Passport clicked" << std::endl;
+			dragged = passport;
+			drag_offset = click - passport->getPosition();
+		}
+		
+		else if(accept_button->getGlobalBounds().contains(click_control)){
+			clicked_button = true;
+			passport_accepted = true;
+			
+		}
+		else if(reject_button->getGlobalBounds().contains(click_control)){
+			clicked_button = true;
+			passport_rejected = true;
+		}
+	}
+	if (event->button == sf::Mouse::Button::Right){
+		clickr = static_cast<sf::Vector2f>(position);
+		context_show = true;
+		if(clicked_button == false){
+			accept_button->setPosition(sf::Vector2f(clickr.x - 50, clickr.y - 50));
+			reject_button->setPosition(sf::Vector2f(clickr.x - 50, clickr.y + 50));
+		}
+		
 	}
 }
 
@@ -107,7 +193,23 @@ void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 	//Works the same as MouseButtonPressed
 	if (event->button == sf::Mouse::Button::Left)
 	{
-		//Left mouse button was released
+		if(dragged == passport && passport->getPosition().y < 100 && passport->getPosition().x < 100){
+			if(clicked_button == true){
+				if(should_accept){
+					result_text->setString("You have guessed correctly!");
+					show_text = true;
+				}
+				else{
+					result_text->setString("You have guessed incorrectly!");
+					show_text = true;
+				}
+				newAnimal();
+				passport_accepted = false;
+				passport_rejected = false;
+			}
+		}
+		
+		dragged = nullptr;
 	}
 }
 
@@ -132,5 +234,7 @@ void Game::keyReleased(const sf::Event::KeyReleased* event)
 	}
 
 }
+
+
 
 
