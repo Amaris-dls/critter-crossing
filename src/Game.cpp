@@ -12,7 +12,7 @@ Game::Game(sf::RenderWindow& game_window)
 Game::~Game()
 {
 	delete font;
-	delete [] animals;
+	delete [] peoples;
 	delete [] passports;
 	delete character;
 	delete passport;
@@ -29,40 +29,47 @@ Game::~Game()
 // We call this once after the game class is instantiated
 bool Game::init()
 {
-	if (!font->openFromFile("../Data/Fonts/open-sans/openSans-Regular.ttf"))
+	if (!font->openFromFile("Data/Fonts/open-sans/OpenSans-Regular.ttf"))
 	{
 		std::cerr << "Failed to load font" << std::endl;
 		return false;
 	}
-	animals[0].loadFromFile("../Data/Images/Critter Crossing/elephant.png");
-	animals[1].loadFromFile("../Data/Images/Critter Crossing/moose.png");
-	animals[2].loadFromFile("../Data/Images/Critter Crossing/penguin.png");
-	passports[0].loadFromFile("../Data/Images/Critter Crossing/elephant passport.png");
-	passports[1].loadFromFile("../Data/Images/Critter Crossing/moose passport.png");
-	passports[2].loadFromFile("../Data/Images/Critter Crossing/penguin passport.png");
-	
-	character = new sf::Sprite(animals[0]);
+	peoples[0].loadFromFile("Data/Images/TLOU/Ellie1-young-good");
+	peoples[1].loadFromFile("Data/Images/TLOU/abby-good");
+	peoples[2].loadFromFile("Data/Images/TLOU/joel-good.tiff");
+	peoples[3].loadFromFile("Data/Images/TLOU/tommy-good.png");
+	peoples[4].loadFromFile("Data/Images/TLOU/dina-good.png");
+	peoples[5].loadFromFile("Data/Images/TLOU/ellie-bad.png");
+	peoples[6].loadFromFile("Data/Images/TLOU/abby-bad");
+	peoples[7].loadFromFile("Data/Images/TLOU/tommy-bad.png");
+	passports[0].loadFromFile("Data/Images/TLOU/ellie-passport.png");
+	passports[1].loadFromFile("Data/Images/TLOU/abby-passport.png");
+	passports[2].loadFromFile("Data/Images/TLOU/joel-passport.png");
+	passports[3].loadFromFile("Data/Images/TLOU/tommy-passport.png");
+	passports[4].loadFromFile("Data/Images/TLOU/dina-passport.png");
+
+	character = new sf::Sprite(peoples[0]);
 	passport = new sf::Sprite(passports[0]);
 	background_texture = new sf::Texture();
-	background_texture->loadFromFile("../Data/Images/WhackaMole Worksheet/background.png");
+	background_texture->loadFromFile("Data/Images/WhackaMole Worksheet/background.png");
 	background = new sf::Sprite(*background_texture);
 
 	accept_button_texture = new sf::Texture();
-	accept_button_texture->loadFromFile("../Data/Images/Critter Crossing/accept button.png");
+	accept_button_texture->loadFromFile("Data/Images/Critter Crossing/accept button.png");
 	accept_button = new sf::Sprite(*accept_button_texture);
 	accept_button->setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2 - 320));
 	reject_button_texture = new sf::Texture();
-	reject_button_texture->loadFromFile("../Data/Images/Critter Crossing/reject button.png");
+	reject_button_texture->loadFromFile("Data/Images/Critter Crossing/reject button.png");
 	reject_button = new sf::Sprite(*reject_button_texture);
 	reject_button->setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2 - 200));
 	context_show = false;
 	dragged = nullptr;
 
 	accept = new sf::Texture();
-	accept->loadFromFile("../Data/Images/Critter Crossing/accept.png");
+	accept->loadFromFile("Data/Images/Critter Crossing/accept.png");
 	accept_sprite = new sf::Sprite(*accept);
 	reject = new sf::Texture();
-	reject->loadFromFile("../Data/Images/Critter Crossing/reject.png");
+	reject->loadFromFile("Data/Images/Critter Crossing/reject.png");
 	reject_sprite = new sf::Sprite(*reject);
 	passport_accepted = false;
 	passport_rejected = false;
@@ -91,7 +98,7 @@ void Game::update(float dt)
 // Runs after update, use it to tell the window what to draw this frame
 void Game::render()
 {
-	//window.draw(background);
+	//window.draw(*background);
 	window.draw(*character);
 	window.draw(*passport);
 	
@@ -114,8 +121,8 @@ void Game::render()
 }
 
 void Game::newAnimal() {
-	int animal_index = rand() % 3;
-	int passport_index = rand() % 3;
+	int animal_index = rand() % 8;
+	int passport_index = rand() % 5;
 
 	if (animal_index == passport_index) {
 		should_accept = true;
@@ -123,7 +130,7 @@ void Game::newAnimal() {
 	else {
 		should_accept = false;
 	}
-	character->setTexture(animals[animal_index], true);
+	character->setTexture(peoples[animal_index], true);
 	character->setScale({ 1.8, 1.8 });
 	//character->setPosition(sf::Vector2(window.getSize().x / 12, window.getSize().y / 12));
 	character->setPosition(sf::Vector2f(window.getSize().x / 12 - 50, window.getSize().y / 12));

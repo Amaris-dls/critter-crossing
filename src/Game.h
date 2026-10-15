@@ -28,8 +28,8 @@ class Game
 
   sf::Sprite* character;
   sf::Sprite* passport;
-  sf::Texture* animals = new sf::Texture[3];
-  sf::Texture* passports = new sf::Texture[3];
+  sf::Texture* peoples = new sf::Texture[8];
+  sf::Texture* passports = new sf::Texture[5];
 
   sf::Texture* accept_button_texture;
   sf::Texture* reject_button_texture;
