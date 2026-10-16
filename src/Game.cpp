@@ -1,4 +1,3 @@
-
 #include "Game.h"
 #include <filesystem>
 #include <iostream>
@@ -35,7 +34,7 @@ bool Game::init()
 		return false;
 	}
 	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
-	peoples[1].loadFromFile("Data/Images/TLOU/abby");
+	peoples[1].loadFromFile("Data/Images/TLOU/abby-best.png");
 	peoples[2].loadFromFile("Data/Images/TLOU/joel-best.png");
 	peoples[3].loadFromFile("Data/Images/TLOU/tommy-good.png");
 	peoples[4].loadFromFile("Data/Images/TLOU/dina-good.png");
@@ -131,14 +130,19 @@ void Game::newAnimal() {
 		should_accept = false;
 	}
 	character->setTexture(peoples[animal_index], true);
-	character->setScale({ 1.8, 1.8 });
-	//character->setPosition(sf::Vector2(window.getSize().x / 12, window.getSize().y / 12));
-	character->setPosition(sf::Vector2f(window.getSize().x / 12 - 50, window.getSize().y / 12));
+	character->setScale({ 0.9f, 0.9f });
+
+	const sf::FloatRect bounds = character->getGlobalBounds();
+	float characterHeight = bounds.size.y;
+	character->setPosition(sf::Vector2f(
+		window.getSize().x / 12.f - 50.f,
+		window.getSize().y - characterHeight
+	));
 
 	passport->setTexture(passports[passport_index]);
-	passport->setScale({ 0.6, 0.6 });
+	passport->setScale({ 0.6f, 0.6f });
 	//passport->setPosition(sf::Vector2(window.getSize().x / 2, window.getSize().y / 2));
-	passport->setPosition(sf::Vector2f(window.getSize().x / 2 , window.getSize().y / 2 - 50));
+	passport->setPosition(sf::Vector2f(window.getSize().x / 2 , window.getSize().y / 2 -50));
 }
 
 void Game::dragSprite(sf::Sprite* sprite) {
