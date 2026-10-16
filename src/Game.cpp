@@ -34,13 +34,13 @@ bool Game::init()
 		std::cerr << "Failed to load font" << std::endl;
 		return false;
 	}
-	peoples[0].loadFromFile("Data/Images/TLOU/Ellie1-young-good");
-	peoples[1].loadFromFile("Data/Images/TLOU/abby-good");
+	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
+	peoples[1].loadFromFile("Data/Images/TLOU/abby");
 	peoples[2].loadFromFile("Data/Images/TLOU/joel-best.png");
 	peoples[3].loadFromFile("Data/Images/TLOU/tommy-good.png");
 	peoples[4].loadFromFile("Data/Images/TLOU/dina-good.png");
 	peoples[5].loadFromFile("Data/Images/TLOU/ellie-bad.png");
-	peoples[6].loadFromFile("Data/Images/TLOU/abby-bad");
+	peoples[6].loadFromFile("Data/Images/TLOU/abby-worst.png");
 	peoples[7].loadFromFile("Data/Images/TLOU/tommy-bad.png");
 	passports[0].loadFromFile("Data/Images/TLOU/ellie-passport.png");
 	passports[1].loadFromFile("Data/Images/TLOU/abby-passport.png");
