@@ -36,7 +36,7 @@ bool Game::init()
 	}
 	peoples[0].loadFromFile("Data/Images/TLOU/Ellie1-young-good");
 	peoples[1].loadFromFile("Data/Images/TLOU/abby-good");
-	peoples[2].loadFromFile("Data/Images/TLOU/joel-better.webp");
+	peoples[2].loadFromFile("Data/Images/TLOU/joel-best.png");
 	peoples[3].loadFromFile("Data/Images/TLOU/tommy-good.png");
 	peoples[4].loadFromFile("Data/Images/TLOU/dina-good.png");
 	peoples[5].loadFromFile("Data/Images/TLOU/ellie-bad.png");
