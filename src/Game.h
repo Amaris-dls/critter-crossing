@@ -47,6 +47,9 @@ class Game
   sf::Vector2f click_reject;
   sf::Vector2i mouse_position_control;
 
+  sf::Sprite* table;
+  sf::Texture* table_texture;
+
   sf::Sprite* dragged = nullptr;
   sf::Vector2i mouse_position;
   sf::Vector2f mouse_positionf;

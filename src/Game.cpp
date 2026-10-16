@@ -23,6 +23,7 @@ Game::~Game()
 	delete reject;
 	delete accept_button;
 	delete reject_button;
+	delete table;
 }
 
 // We call this once after the game class is instantiated
@@ -56,13 +57,13 @@ bool Game::init()
 	accept_button_texture = new sf::Texture();
 	accept_button_texture->loadFromFile("Data/Images/TLOU/green-stamper.png");
 	accept_button = new sf::Sprite(*accept_button_texture);
-	accept_button->setScale(sf::Vector2f(0.4f, 0.4f));
+	accept_button->setScale(sf::Vector2f(0.3f, 0.3f));
 	reject_button_texture = new sf::Texture();
 	reject_button_texture->loadFromFile("Data/Images/TLOU/red-stamper.png");
 	reject_button = new sf::Sprite(*reject_button_texture);
-	reject_button->setScale(sf::Vector2f(0.4f, 0.4f));
-	accept_button->setPosition(sf::Vector2f(window.getSize().x/2 +300, window.getSize().y/2 - 300));
-	reject_button->setPosition(sf::Vector2f(window.getSize().x/2 - 50, window.getSize().y/2 -300));
+	reject_button->setScale(sf::Vector2f(0.3f, 0.3f));
+	accept_button->setPosition(sf::Vector2f(window.getSize().x/2 +300, window.getSize().y - 200));
+	reject_button->setPosition(sf::Vector2f(window.getSize().x/2 + 150, window.getSize().y - 200));
 	context_show = false;
 	dragged = nullptr;
 
@@ -76,6 +77,9 @@ bool Game::init()
 	passport_rejected = false;
 	clicked_button = false;
 	show_text = false;
+	table_texture->loadFromFile("Data/Images/TLOU/table.png");
+	table = new sf::Sprite(*table_texture);
+	table->setPosition(sf::Vector2f(-50, window.getSize().y - 160));
 	
 	result_text = new sf::Text(*font, "You have guessed correctly!", 30);
 	//result_text->setFont(*font);
@@ -102,7 +106,7 @@ void Game::render()
 	//window.draw(*background);
 	window.draw(*character);
 	window.draw(*passport);
-	
+	window.draw(*table);
 	if(clicked_button == false){
 		window.draw(*accept_button);
 		window.draw(*reject_button);
@@ -144,7 +148,7 @@ void Game::newAnimal() {
 	passport->setTexture(passports[passport_index]);
 	passport->setScale({ 0.6f, 0.6f });
 	//passport->setPosition(sf::Vector2(window.getSize().x / 2, window.getSize().y / 2));
-	passport->setPosition(sf::Vector2f(window.getSize().x / 2 , window.getSize().y / 2 -50));
+	passport->setPosition(sf::Vector2f(window.getSize().x / 2 , window.getSize().y / 2 -200));
 }
 
 void Game::dragSprite(sf::Sprite* sprite) {
