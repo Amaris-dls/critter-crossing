@@ -168,7 +168,7 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 	{
 		//Left mouse button was pressed
 		click = static_cast<sf::Vector2f>(position);
-		mouse_position = sf::Mouse::getPosition(window);
+		//mouse_position = sf::Mouse::getPosition(window);
 		click_control = static_cast<sf::Vector2f>(position);
 		mouse_position_control = sf::Mouse::getPosition(window);
 		if(passport->getGlobalBounds().contains(click)){
