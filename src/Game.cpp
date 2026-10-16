@@ -57,12 +57,12 @@ bool Game::init()
 	accept_button_texture->loadFromFile("Data/Images/TLOU/green-stamper.png");
 	accept_button = new sf::Sprite(*accept_button_texture);
 	accept_button->setScale(sf::Vector2f(0.4f, 0.4f));
-	accept_button->setPosition(sf::Vector2f(window.getSize().x / 2 + 200, window.getSize().y / 2 - 500));
 	reject_button_texture = new sf::Texture();
 	reject_button_texture->loadFromFile("Data/Images/TLOU/red-stamper.png");
 	reject_button = new sf::Sprite(*reject_button_texture);
 	reject_button->setScale(sf::Vector2f(0.4f, 0.4f));
-	reject_button->setPosition(sf::Vector2f(window.getSize().x / 2 +200, window.getSize().y / 2 - 500));
+	accept_button->setPosition(sf::Vector2f(window.getSize().x/2 +300, window.getSize().y/2 - 300));
+	reject_button->setPosition(sf::Vector2f(window.getSize().x/2 - 50, window.getSize().y/2 -300));
 	context_show = false;
 	dragged = nullptr;
 
@@ -103,7 +103,7 @@ void Game::render()
 	window.draw(*character);
 	window.draw(*passport);
 	
-	if(context_show == true && clicked_button == false){
+	if(clicked_button == false){
 		window.draw(*accept_button);
 		window.draw(*reject_button);
 	}
@@ -164,40 +164,43 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 	// Event contains mouse position and which button was clicked
 	// Don't need to extract position to a variable like this, this is just to show you it's a Vector2i
 	sf::Vector2i position = event->position;
-
+	std::cout << "Mouse button pressed"<< std::endl;
 	// You can tell which button was pressed by comparing it to SFML's definitions of mouse buttons
 	if (event->button == sf::Mouse::Button::Left)
 	{
-		//Left mouse button was pressed
+		std::cout << "Left button pressed"<< std::endl;
 		click = static_cast<sf::Vector2f>(position);
 		//mouse_position = sf::Mouse::getPosition(window);
-		click_control = static_cast<sf::Vector2f>(position);
+		click_reject = static_cast<sf::Vector2f>(position);
+		click_accept = static_cast<sf::Vector2f>(position);
 		mouse_position_control = sf::Mouse::getPosition(window);
 		if(passport->getGlobalBounds().contains(click)){
 			std::cout << "Passport clicked" << std::endl;
 			dragged = passport;
 			drag_offset = click - passport->getPosition();
 		}
+		 if(accept_button->getGlobalBounds().contains(click_accept)){
+			dragged = accept_button;
+			drag_offset = click_accept - accept_button->getPosition();
+			clicked_button = true;
+			//passport_accepted = true;
+		}
+		 if(reject_button->getGlobalBounds().contains(click_reject)){
+			dragged = reject_button;
+			drag_offset = click_reject - reject_button->getPosition();
+			clicked_button = true;
+			//passport_rejected = true;
+		}
 		
-		if(accept_button->getGlobalBounds().contains(click_control)){
-			clicked_button = true;
-			passport_accepted = true;
-			
-		}
-		if(reject_button->getGlobalBounds().contains(click_control)){
-			clicked_button = true;
-			passport_rejected = true;
-		}
 	}
-	if (event->button == sf::Mouse::Button::Right){
+	/*if (event->button == sf::Mouse::Button::Right){
 		clickr = static_cast<sf::Vector2f>(position);
 		context_show = true;
 		if(clicked_button == false){
 			accept_button->setPosition(sf::Vector2f(window.getSize().x/2 +300, window.getSize().y/2 - 300));
 			reject_button->setPosition(sf::Vector2f(window.getSize().x/2 - 50, window.getSize().y/2 -300));
-		}
-		
-	}
+		}	
+	}*/
 }
 
 //Called by event polling when a MouseButtonReleased event is found
@@ -222,6 +225,9 @@ void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 				clicked_button = false;
 			}
 		}
+		/*if(dragged == accept_button || dragged == reject_button){
+			;
+		}*/
 		
 		dragged = nullptr;
 	}

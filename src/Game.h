@@ -43,7 +43,8 @@ class Game
   sf::Vector2f clickr;
   bool passport_accepted;
   bool passport_rejected;
-  sf::Vector2f click_control;
+  sf::Vector2f click_accept;
+  sf::Vector2f click_reject;
   sf::Vector2i mouse_position_control;
 
   sf::Sprite* dragged = nullptr;
