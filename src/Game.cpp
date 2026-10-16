@@ -54,13 +54,15 @@ bool Game::init()
 	background = new sf::Sprite(*background_texture);
 
 	accept_button_texture = new sf::Texture();
-	accept_button_texture->loadFromFile("Data/Images/Critter Crossing/accept button.png");
+	accept_button_texture->loadFromFile("Data/Images/TLOU/green-stamper.png");
 	accept_button = new sf::Sprite(*accept_button_texture);
-	accept_button->setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2 - 320));
+	accept_button->setScale(sf::Vector2f(0.4f, 0.4f));
+	accept_button->setPosition(sf::Vector2f(window.getSize().x / 2 + 200, window.getSize().y / 2 - 500));
 	reject_button_texture = new sf::Texture();
-	reject_button_texture->loadFromFile("Data/Images/Critter Crossing/reject button.png");
+	reject_button_texture->loadFromFile("Data/Images/TLOU/red-stamper.png");
 	reject_button = new sf::Sprite(*reject_button_texture);
-	reject_button->setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2 - 200));
+	reject_button->setScale(sf::Vector2f(0.4f, 0.4f));
+	reject_button->setPosition(sf::Vector2f(window.getSize().x / 2 +200, window.getSize().y / 2 - 500));
 	context_show = false;
 	dragged = nullptr;
 
@@ -191,8 +193,8 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 		clickr = static_cast<sf::Vector2f>(position);
 		context_show = true;
 		if(clicked_button == false){
-			accept_button->setPosition(sf::Vector2f(clickr.x - 50, clickr.y - 50));
-			reject_button->setPosition(sf::Vector2f(clickr.x - 50, clickr.y + 50));
+			accept_button->setPosition(sf::Vector2f(window.getSize().x/2 +300, window.getSize().y/2 - 300));
+			reject_button->setPosition(sf::Vector2f(window.getSize().x/2 - 50, window.getSize().y/2 -300));
 		}
 		
 	}
