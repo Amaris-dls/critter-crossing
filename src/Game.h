@@ -61,6 +61,8 @@ class Game
 
   sf::Text* result_text;
   bool show_text = false;
+
+  bool stamp_chosen;
   
 
 };

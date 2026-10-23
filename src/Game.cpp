@@ -86,6 +86,8 @@ bool Game::init()
 	//result_text->setString("You have guessed correctly!");
 	result_text->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
 
+	stamp_chosen = false;
+
 
 	should_accept = false;
 	newAnimal();
@@ -161,7 +163,6 @@ void Game::dragSprite(sf::Sprite* sprite) {
 }
 
 
-
 //Called by event polling when a MouseButtonPressed event is found
 void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 {
@@ -186,13 +187,13 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 		 if(accept_button->getGlobalBounds().contains(click_accept)){
 			dragged = accept_button;
 			drag_offset = click_accept - accept_button->getPosition();
-			clicked_button = true;
+			//clicked_button = true;
 			//passport_accepted = true;
 		}
 		 if(reject_button->getGlobalBounds().contains(click_reject)){
 			dragged = reject_button;
 			drag_offset = click_reject - reject_button->getPosition();
-			clicked_button = true;
+			//clicked_button = true;
 			//passport_rejected = true;
 		}
 		
@@ -210,11 +211,12 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 //Called by event polling when a MouseButtonReleased event is found
 void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 {
+	sf::Vector2i position = event->position;
 	//Works the same as MouseButtonPressed
 	if (event->button == sf::Mouse::Button::Left)
 	{
 		if(dragged == passport && passport->getPosition().y < 100 && passport->getPosition().x < 100){
-			if(clicked_button == true){
+			if(passport_accepted == true || passport_rejected == true){
 				if(should_accept){
 					result_text->setString("You have guessed correctly!");
 					show_text = true;
@@ -229,10 +231,17 @@ void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 				clicked_button = false;
 			}
 		}
-		/*if(dragged == accept_button || dragged == reject_button){
-			;
-		}*/
-		
+		if(dragged == accept_button || dragged == reject_button){
+			click = static_cast<sf::Vector2f>(position);
+			if(passport->getGlobalBounds().contains(click)){
+				if(dragged == accept_button){
+					passport_accepted = true;
+				}
+				else{
+					passport_rejected = true;
+				}
+			}
+		}
 		dragged = nullptr;
 	}
 }
