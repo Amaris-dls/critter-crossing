@@ -37,6 +37,7 @@ class Game
   sf::Sprite* reject_button;
   sf::Texture* accept;
   sf::Texture* reject;
+  sf::Texture* table_texture = new sf::Texture();
   sf::Sprite* accept_sprite;
   sf::Sprite* reject_sprite;
   bool context_show = false;
@@ -48,7 +49,6 @@ class Game
   sf::Vector2i mouse_position_control;
 
   sf::Sprite* table;
-  sf::Texture* table_texture;
 
   sf::Sprite* dragged = nullptr;
   sf::Vector2i mouse_position;
@@ -63,6 +63,9 @@ class Game
   bool show_text = false;
 
   bool stamp_chosen;
+
+  sf::Text* timer_text;
+  float time_remaining = 60.0f;
   
 
 };

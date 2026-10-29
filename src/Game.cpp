@@ -21,6 +21,7 @@ Game::~Game()
 	delete reject_button_texture;
 	delete accept;
 	delete reject;
+	delete table_texture;
 	delete accept_button;
 	delete reject_button;
 	delete table;
@@ -92,6 +93,9 @@ bool Game::init()
 	should_accept = false;
 	newAnimal();
 
+	timer_text = new sf::Text(*font, "Time: 60", 30);
+	//timer_text->setPosition({50.0f, 50.0f});
+
   return true;
 }
 
@@ -100,6 +104,13 @@ bool Game::init()
 void Game::update(float dt)
 {
 	dragSprite(dragged);
+	time_remaining -= dt;
+    if (time_remaining < 0.0f){
+		time_remaining = 0.0f;
+    	timer_text->setString(std::to_string(static_cast<int>(time_remaining)));
+		dragSprite(dragged);	
+	}
+      
 }
 
 // Runs after update, use it to tell the window what to draw this frame
@@ -124,6 +135,7 @@ void Game::render()
 	if(show_text == true){
 		window.draw(*result_text);
 	}
+	window.draw(*timer_text);
 
 }
 
