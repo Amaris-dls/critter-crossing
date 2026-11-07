@@ -52,7 +52,7 @@ bool Game::init()
 	character = new sf::Sprite(peoples[0]);
 	passport = new sf::Sprite(passports[0]);
 	background_texture = new sf::Texture();
-	background_texture->loadFromFile("Data/Images/WhackaMole Worksheet/background.png");
+	background_texture->loadFromFile("Data/Images/TLOU/background.png");
 	background = new sf::Sprite(*background_texture);
 
 	accept_button_texture = new sf::Texture();
@@ -105,10 +105,9 @@ void Game::update(float dt)
 {
 	dragSprite(dragged);
 	time_remaining -= dt;
+	timer_text->setString(std::to_string(static_cast<int>(time_remaining)));
     if (time_remaining < 0.0f){
-		time_remaining = 0.0f;
-    	timer_text->setString(std::to_string(static_cast<int>(time_remaining)));
-		dragSprite(dragged);	
+		time_remaining = 0.0f;	
 	}
       
 }
@@ -116,14 +115,11 @@ void Game::update(float dt)
 // Runs after update, use it to tell the window what to draw this frame
 void Game::render()
 {
-	//window.draw(*background);
+	window.draw(*background);
 	window.draw(*character);
 	window.draw(*passport);
 	window.draw(*table);
-	if(clicked_button == false){
-		window.draw(*accept_button);
-		window.draw(*reject_button);
-	}
+	
 	if(passport_accepted == true){
 		accept_sprite->setPosition(sf::Vector2f(passport->getPosition().x, passport->getPosition().y));
 		window.draw(*accept_sprite);
@@ -136,6 +132,10 @@ void Game::render()
 		window.draw(*result_text);
 	}
 	window.draw(*timer_text);
+	if(clicked_button == false){
+		window.draw(*accept_button);
+		window.draw(*reject_button);
+	}
 
 }
 
