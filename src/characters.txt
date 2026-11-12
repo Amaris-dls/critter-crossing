@@ -1,8 +1,8 @@
-"Data/Images/TLOU/ellie-best.png"
-"Data/Images/TLOU/abby-best.png"
-"Data/Images/TLOU/joel-best.png"
-"Data/Images/TLOU/tommy-good.png"
-"Data/Images/TLOU/dina-good.png"
-"Data/Images/TLOU/ellie-bad.png"
-"Data/Images/TLOU/abby-worst.png"
-"Data/Images/TLOU/tommy-bad.png"
+Data/Images/TLOU/ellie-best.png
+Data/Images/TLOU/abby-best.png
+Data/Images/TLOU/joel-best.png
+Data/Images/TLOU/tommy-good.png
+Data/Images/TLOU/dina-good.png
+Data/Images/TLOU/ellie-bad.png
+Data/Images/TLOU/abby-worst.png
+Data/Images/TLOU/tommy-bad.png

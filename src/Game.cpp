@@ -46,8 +46,10 @@ bool Game::init()
 	file.open("src/characters.txt");
 	string path;
 	for (int i = 0; i < 8 && getline(file, path); i++) {
-		peoples[i].loadFromFile(path);
-		i++;
+		if (!peoples[i].loadFromFile(path)) {
+			cout << "faile charaters" << path << endl;
+		}
+		
 	}
 /*	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
 	peoples[1].loadFromFile("Data/Images/TLOU/abby-best.png");
