@@ -43,7 +43,7 @@ bool Game::init()
 	start_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2));
 	quit_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
 	ifstream file;
-	file.open("src/characters.txt");
+	file.open("D:\critter-crossing\src\characters.txt");
 	string path;
 	for (int i = 0; i < 8 && getline(file, path); i++) {
 		if (!peoples[i].loadFromFile(path)) {

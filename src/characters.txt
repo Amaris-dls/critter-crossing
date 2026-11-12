@@ -1,4 +1,4 @@
-Data/Images/TLOU/ellie-best.png
+../Data/Images/TLOU/ellie-best.png
 Data/Images/TLOU/abby-best.png
 Data/Images/TLOU/joel-best.png
 Data/Images/TLOU/tommy-good.png
