@@ -35,6 +35,10 @@ bool Game::init()
 		std::cerr << "Failed to load font" << std::endl;
 		return false;
 	}
+	start_button = new sf::Text(*font, "START", 30);
+	quit_button = new sf::Text(*font, "QUIT", 30);
+	start_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2));
+	quit_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
 	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
 	peoples[1].loadFromFile("Data/Images/TLOU/abby-best.png");
 	peoples[2].loadFromFile("Data/Images/TLOU/joel-best.png");
@@ -116,26 +120,38 @@ void Game::update(float dt)
 void Game::render()
 {
 	window.draw(*background);
-	window.draw(*character);
-	window.draw(*passport);
-	window.draw(*table);
+	switch (state) {
+		case PLAY:
+			
+			window.draw(*character);
+			window.draw(*passport);
+			window.draw(*table);
+			if(passport_accepted == true){
+				accept_sprite->setPosition(sf::Vector2f(passport->getPosition().x, passport->getPosition().y));
+				window.draw(*accept_sprite);
+			}
+			if(passport_rejected == true){
+				reject_sprite->setPosition(sf::Vector2f(passport->getPosition().x, passport->getPosition().y));
+				window.draw(*reject_sprite);
+			}
+			if(show_text == true){
+				window.draw(*result_text);
+			}
+			window.draw(*timer_text);
+			if(clicked_button == false){
+				window.draw(*accept_button);
+				window.draw(*reject_button);
+			}
+			break;
+		case MENU:
+			window.draw(*start_button);
+			window.draw(*quit_button);
+				
+
+	}
 	
-	if(passport_accepted == true){
-		accept_sprite->setPosition(sf::Vector2f(passport->getPosition().x, passport->getPosition().y));
-		window.draw(*accept_sprite);
-	}
-	if(passport_rejected == true){
-		reject_sprite->setPosition(sf::Vector2f(passport->getPosition().x, passport->getPosition().y));
-		window.draw(*reject_sprite);
-	}
-	if(show_text == true){
-		window.draw(*result_text);
-	}
-	window.draw(*timer_text);
-	if(clicked_button == false){
-		window.draw(*accept_button);
-		window.draw(*reject_button);
-	}
+	
+
 
 }
 
@@ -208,6 +224,12 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 			//clicked_button = true;
 			//passport_rejected = true;
 		}
+		 if (start_button->getGlobalBounds().contains(click)){
+			 state = PLAY;
+		 }
+		 if (quit_button->getGlobalBounds().contains(click)){
+			 window.close();
+		 }
 		
 	}
 	/*if (event->button == sf::Mouse::Button::Right){

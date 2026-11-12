@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(SFMLGame)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 #---- Fetch SFML, only works if you have git installed on your machine ----#
@@ -16,7 +16,7 @@ FetchContent_MakeAvailable(SFML)    # Makes sure SFML and its dependencies are a
 
 #---- File management & .exe creation ----#
 
-set(SOURCE_FILES src/main.cpp src/Game.cpp src/Game.h )  # Sets variable SOURCE_FILES to hold names & locations of files that need to be compiled into the application
+set(SOURCE_FILES src/main.cpp src/Game.cpp src/Game.h src/GameManager.cpp src/GameManager.h)  # Sets variable SOURCE_FILES to hold names & locations of files that need to be compiled into the application
 add_executable(SFMLGame ${SOURCE_FILES})  # Names the application and tells compiler which source files to use
 
 target_link_libraries(SFMLGame PRIVATE SFML::Graphics SFML::Window SFML::System SFML::Audio) # Links the SFML libraries we need to our application

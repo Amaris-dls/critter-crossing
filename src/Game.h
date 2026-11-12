@@ -18,6 +18,7 @@ class Game
   void keyReleased(const sf::Event::KeyReleased* event);
   void newAnimal();
   void dragSprite(sf::Sprite* sprite);
+  enum GameState{MENU, PLAY};
 
  private:
   sf::RenderWindow& window;
@@ -30,6 +31,9 @@ class Game
   sf::Sprite* passport;
   sf::Texture* peoples = new sf::Texture[8];
   sf::Texture* passports = new sf::Texture[5];
+  sf::Text* start_button;
+  sf::Text* quit_button;
+  GameState state = MENU;
 
   sf::Texture* accept_button_texture;
   sf::Texture* reject_button_texture;
