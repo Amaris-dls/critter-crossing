@@ -3,6 +3,9 @@
 #define SFML_GAME_H
 
 #include <SFML/Graphics.hpp>
+#include <string>
+#include <format>
+using namespace std;
 
 class Game
 {
@@ -73,6 +76,7 @@ class Game
 
   sf::Text* game_over_text;
   sf::Text* restart_button;
+
 
   //sf::Text* image_names = new sf::Text[8];
   

@@ -1,6 +1,8 @@
 #include "Game.h"
 #include <filesystem>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 Game::Game(sf::RenderWindow& game_window)
   : window(game_window)
@@ -35,21 +37,26 @@ bool Game::init()
 		std::cerr << "Failed to load font" << std::endl;
 		return false;
 	}
+
 	start_button = new sf::Text(*font, "START", 30);
 	quit_button = new sf::Text(*font, "QUIT", 30);
 	start_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2));
 	quit_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
-	for (int i = 0, i < 8, i++) {
-
+	ifstream file;
+	file.open("src/characters.txt");
+	string path;
+	for (int i = 0; i < 8 && getline(file, path); i++) {
+		peoples[i].loadFromFile(path);
+		i++;
 	}
-	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
+/*	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
 	peoples[1].loadFromFile("Data/Images/TLOU/abby-best.png");
 	peoples[2].loadFromFile("Data/Images/TLOU/joel-best.png");
 	peoples[3].loadFromFile("Data/Images/TLOU/tommy-good.png");
 	peoples[4].loadFromFile("Data/Images/TLOU/dina-good.png");
 	peoples[5].loadFromFile("Data/Images/TLOU/ellie-bad.png");
 	peoples[6].loadFromFile("Data/Images/TLOU/abby-worst.png");
-	peoples[7].loadFromFile("Data/Images/TLOU/tommy-bad.png");
+	peoples[7].loadFromFile("Data/Images/TLOU/tommy-bad.png");*/
 	passports[0].loadFromFile("Data/Images/TLOU/ellie-passport.png");
 	passports[1].loadFromFile("Data/Images/TLOU/abby-passport.png");
 	passports[2].loadFromFile("Data/Images/TLOU/joel-passport.png");
