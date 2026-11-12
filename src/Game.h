@@ -18,7 +18,7 @@ class Game
   void keyReleased(const sf::Event::KeyReleased* event);
   void newAnimal();
   void dragSprite(sf::Sprite* sprite);
-  enum GameState{MENU, PLAY};
+  enum GameState{MENU, PLAY, LOSE, WIN};
 
  private:
   sf::RenderWindow& window;
@@ -69,7 +69,12 @@ class Game
   bool stamp_chosen;
 
   sf::Text* timer_text;
-  float time_remaining = 60.0f;
+  float time_remaining = 5.0f;
+
+  sf::Text* game_over_text;
+  sf::Text* restart_button;
+
+  //sf::Text* image_names = new sf::Text[8];
   
 
 };

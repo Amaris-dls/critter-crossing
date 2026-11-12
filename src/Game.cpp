@@ -39,6 +39,9 @@ bool Game::init()
 	quit_button = new sf::Text(*font, "QUIT", 30);
 	start_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2));
 	quit_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
+	for (int i = 0, i < 8, i++) {
+
+	}
 	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
 	peoples[1].loadFromFile("Data/Images/TLOU/abby-best.png");
 	peoples[2].loadFromFile("Data/Images/TLOU/joel-best.png");
@@ -97,8 +100,12 @@ bool Game::init()
 	should_accept = false;
 	newAnimal();
 
-	timer_text = new sf::Text(*font, "Time: 60", 30);
+	timer_text = new sf::Text(*font, "Time: 5", 30);
 	//timer_text->setPosition({50.0f, 50.0f});
+	restart_button = new sf::Text(*font, "RESTART", 30);
+	restart_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2));
+	game_over_text = new sf::Text(*font, "GAME OVER", 30);
+	game_over_text->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
 
   return true;
 }
@@ -112,6 +119,7 @@ void Game::update(float dt)
 	timer_text->setString(std::to_string(static_cast<int>(time_remaining)));
     if (time_remaining < 0.0f){
 		time_remaining = 0.0f;	
+		state = LOSE;
 	}
       
 }
@@ -146,6 +154,19 @@ void Game::render()
 		case MENU:
 			window.draw(*start_button);
 			window.draw(*quit_button);
+			
+			break;
+		case LOSE:
+				window.draw(*game_over_text);
+				window.draw(*restart_button);
+				/*passport_accepted = false;
+				passport_rejected = false;
+				clicked_button = false;
+				show_text = false;
+				stamp_chosen = false;
+				should_accept = false;
+				context_show = false;*/
+				break;
 				
 
 	}
@@ -230,6 +251,11 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 		 if (quit_button->getGlobalBounds().contains(click)){
 			 window.close();
 		 }
+		 if (restart_button->getGlobalBounds().contains(click)) {
+			 std::cout << "restart clicked" << std::endl;
+			 state = PLAY;
+			 
+		 }
 		
 	}
 	/*if (event->button == sf::Mouse::Button::Right){
@@ -301,7 +327,4 @@ void Game::keyReleased(const sf::Event::KeyReleased* event)
 	}
 
 }
-
-
-
-
+				
