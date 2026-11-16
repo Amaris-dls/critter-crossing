@@ -6,12 +6,13 @@
 #include <format>
 using namespace std;
 
-class Text
+class TextClass
 {
 	public:
-		Text();
-		~Text();
-		makeText(string text, sf::Font font, int size, int x, int y);
+		TextClass();
+		~TextClass();
+		bool makeText(string input, sf::Font* font, int size, int x, int y);
+		sf::Text* textSprite = nullptr;
 
 
 };
