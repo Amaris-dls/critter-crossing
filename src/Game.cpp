@@ -34,13 +34,13 @@ bool Game::init()
 {
 	if (!font->openFromFile("../Data/Fonts/open-sans/OpenSans-Regular.ttf"))
 	{
-		std::cerr << "Failed to load font" << std::endl;
+		std::cout << "Failed to load font" << std::endl;
 		return false;
 	}
 
 	start_button.makeText("START", font, 30, window.getSize().x / 2 - 100, window.getSize().y / 2);
 	quit_button.makeText("QUIT", font, 30, window.getSize().x / 2 - 100, window.getSize().y / 2 + 100);
-	ifstream file;
+	/*ifstream file;
 	file.open("../src/characters.txt");
 	string path;
 	for (int i = 0; i < 8 && getline(file, path); i++) {
@@ -48,23 +48,27 @@ bool Game::init()
 			cout << "faile charaters" << path << endl;
 		}
 		
-	}
-/*	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
+	}*/
+	peoples = std::make_unique<sf::Texture>();
+	passports = std::make_unique<sf::Texture>();
+	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
 	peoples[1].loadFromFile("Data/Images/TLOU/abby-best.png");
 	peoples[2].loadFromFile("Data/Images/TLOU/joel-best.png");
 	peoples[3].loadFromFile("Data/Images/TLOU/tommy-good.png");
 	peoples[4].loadFromFile("Data/Images/TLOU/dina-good.png");
 	peoples[5].loadFromFile("Data/Images/TLOU/ellie-bad.png");
 	peoples[6].loadFromFile("Data/Images/TLOU/abby-worst.png");
-	peoples[7].loadFromFile("Data/Images/TLOU/tommy-bad.png");*/
+	peoples[7].loadFromFile("Data/Images/TLOU/tommy-bad.png");
 	passports[0].loadFromFile("../Data/Images/TLOU/ellie-passport.png");
 	passports[1].loadFromFile("../Data/Images/TLOU/abby-passport.png");
 	passports[2].loadFromFile("../Data/Images/TLOU/joel-passport.png");
 	passports[3].loadFromFile("../Data/Images/TLOU/tommy-passport.png");
 	passports[4].loadFromFile("../Data/Images/TLOU/dina-passport.png");
 
-	character = new sf::Sprite(peoples[0]);
-	passport = new sf::Sprite(passports[0]);
+	
+	
+	character = std::make_unique<GameObject>(peoples[0]);
+	passport = std::make_unique<GameObject>(passports[0]);
 	background_texture = std::make_unique<sf::Texture>();
 	background_texture->loadFromFile("../Data/Images/TLOU/background.png");
 	background = std::make_unique<sf::Sprite>(*background_texture);
@@ -76,18 +80,18 @@ bool Game::init()
 	reject_button_texture = std::make_unique<sf::Texture>();
 	reject_button_texture->loadFromFile("../Data/Images/TLOU/red-stamper.png");
 	reject_button = make_unique<GameObject>(*reject_button_texture);
-	reject_button->setScale(sf::Vector2f(0.3f, 0.3f));
-	accept_button->setPosition(sf::Vector2f(window.getSize().x/2 +300, window.getSize().y - 200));
-	reject_button->setPosition(sf::Vector2f(window.getSize().x/2 + 150, window.getSize().y - 200));
+	reject_button->GetSprite().setScale(sf::Vector2f(0.3f, 0.3f));
+	accept_button->GetSprite().setPosition(sf::Vector2f(window.getSize().x/2 +300, window.getSize().y - 200));
+	reject_button->GetSprite().setPosition(sf::Vector2f(window.getSize().x/2 + 150, window.getSize().y - 200));
 	context_show = false;
 	dragged = nullptr;
 
-	accept = new sf::Texture();
+	accept = std::make_unique<sf::Texture>();
 	accept->loadFromFile("../Data/Images/Critter Crossing/accept.png");
-	accept_sprite = new sf::Sprite(*accept);
-	reject = new sf::Texture();
+	accept_sprite = make_unique<GameObject>(*accept);
+	reject = std::make_unique<sf::Texture>();
 	reject->loadFromFile("../Data/Images/Critter Crossing/reject.png");
-	reject_sprite = new sf::Sprite(*reject);
+	reject_sprite = make_unique<GameObject>(*reject);
 	passport_accepted = false;
 	passport_rejected = false;
 	clicked_button = false;

@@ -7,6 +7,8 @@
 #include <format>
 #include "TextClass.h"
 #include "GameObject.h"
+#include <array>
+#include <iostream>
 using namespace std;
 
 class Game
@@ -34,8 +36,9 @@ class Game
 
   std::unique_ptr<GameObject> character;
   std::unique_ptr<GameObject> passport;
-  std::vector<std::unique_ptr<sf::Texture>> peoples = new sf::Texture[8];
-  sf::Texture* passports = new sf::Texture[5];
+  vector<std::unique_ptr<sf::Texture>> peoples;
+  vector<std::unique_ptr<sf::Texture>> passports;
+  //sf::Texture* passports = new sf::Texture[5];
   TextClass start_button;
   TextClass quit_button;
   GameState state = MENU;
