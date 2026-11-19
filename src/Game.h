@@ -6,6 +6,7 @@
 #include <string>
 #include <format>
 #include "TextClass.h"
+#include "GameObject.h"
 using namespace std;
 
 class Game
@@ -28,26 +29,26 @@ class Game
   sf::RenderWindow& window;
   sf::Font* font = new sf::Font();
   
-  sf::Texture* background_texture;
-  sf::Sprite* background;
+  std::unique_ptr<sf::Texture> background_texture;
+  std::unique_ptr<sf::Sprite> background;
 
-  sf::Sprite* character;
-  sf::Sprite* passport;
-  sf::Texture* peoples = new sf::Texture[8];
+  std::unique_ptr<GameObject> character;
+  std::unique_ptr<GameObject> passport;
+  std::vector<std::unique_ptr<sf::Texture>> peoples = new sf::Texture[8];
   sf::Texture* passports = new sf::Texture[5];
   TextClass start_button;
   TextClass quit_button;
   GameState state = MENU;
 
-  sf::Texture* accept_button_texture;
-  sf::Texture* reject_button_texture;
-  sf::Sprite* accept_button;
-  sf::Sprite* reject_button;
-  sf::Texture* accept;
-  sf::Texture* reject;
-  sf::Texture* table_texture = new sf::Texture();
-  sf::Sprite* accept_sprite;
-  sf::Sprite* reject_sprite;
+  unique_ptr<sf::Texture> accept_button_texture;
+  unique_ptr<sf::Texture> reject_button_texture;
+  unique_ptr<GameObject> accept_button;
+  unique_ptr<GameObject> reject_button;
+  unique_ptr<sf::Texture> accept;
+  unique_ptr<sf::Texture> reject;
+  unique_ptr<sf::Texture> table_texture;
+  std::unique_ptr<GameObject> accept_sprite;
+  std::unique_ptr<GameObject> reject_sprite;
   bool context_show = false;
   sf::Vector2f clickr;
   bool passport_accepted;
@@ -58,7 +59,7 @@ class Game
 
   sf::Sprite* table;
 
-  sf::Sprite* dragged = nullptr;
+  std::unique_ptr<sf::Sprite> dragged = nullptr;
   sf::Vector2i mouse_position;
   sf::Vector2f mouse_positionf;
   sf::Vector2f drag_offset;
