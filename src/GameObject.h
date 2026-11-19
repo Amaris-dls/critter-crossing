@@ -6,6 +6,7 @@ class GameObject {
 
 public:
 	GameObject();
+	GameObject(const sf::Texture& texture);
 	~GameObject() = default;
 
 	sf::Sprite& GetSprite();
