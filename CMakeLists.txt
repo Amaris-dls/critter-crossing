@@ -20,13 +20,17 @@ set(SOURCE_FILES src/main.cpp src/Game.cpp src/Game.h src/GameManager.cpp
 src/GameManager.h 
 src/characters.txt 
 src/TextClass.cpp 
-src/TextClass.h)  # Sets variable SOURCE_FILES to hold names & locations of files that need to be compiled into the application
+src/TextClass.h
+src/GameObject.cpp
+src/GameObject.h)  # Sets variable SOURCE_FILES to hold names & locations of files that need to be compiled into the application
 add_executable(SFMLGame ${SOURCE_FILES}
 src/GameManager.cpp 
 src/GameManager.h 
 src/characters.txt 
 src/TextClass.cpp 
-src/TextClass.h)  # Names the application and tells compiler which source files to use
+src/TextClass.h
+src/GameObject.cpp
+src/GameObject.h)  # Names the application and tells compiler which source files to use
 
 target_link_libraries(SFMLGame PRIVATE SFML::Graphics SFML::Window SFML::System SFML::Audio) # Links the SFML libraries we need to our application
 target_compile_features(SFMLGame PRIVATE cxx_std_20)  # Defines which standard of C++ the compiler should use
