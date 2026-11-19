@@ -14,7 +14,6 @@ Game::Game(sf::RenderWindow& game_window)
 Game::~Game()
 {
 	delete font;
-	delete table;
 }
 
 // We call this once after the game class is instantiated
@@ -39,14 +38,14 @@ bool Game::init()
 	}*/
 	peoples = std::make_unique<sf::Texture[]>(8);
 	passports = std::make_unique<sf::Texture[]>(5);
-	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
-	peoples[1].loadFromFile("Data/Images/TLOU/abby-best.png");
-	peoples[2].loadFromFile("Data/Images/TLOU/joel-best.png");
-	peoples[3].loadFromFile("Data/Images/TLOU/tommy-good.png");
-	peoples[4].loadFromFile("Data/Images/TLOU/dina-good.png");
-	peoples[5].loadFromFile("Data/Images/TLOU/ellie-bad.png");
-	peoples[6].loadFromFile("Data/Images/TLOU/abby-worst.png");
-	peoples[7].loadFromFile("Data/Images/TLOU/tommy-bad.png");
+	peoples[0].loadFromFile("../Data/Images/TLOU/ellie-best.png");
+	peoples[1].loadFromFile("../Data/Images/TLOU/abby-best.png");
+	peoples[2].loadFromFile("../Data/Images/TLOU/joel-best.png");
+	peoples[3].loadFromFile("../Data/Images/TLOU/tommy-good.png");
+	peoples[4].loadFromFile("../Data/Images/TLOU/dina-good.png");
+	peoples[5].loadFromFile("../Data/Images/TLOU/ellie-bad.png");
+	peoples[6].loadFromFile("../Data/Images/TLOU/abby-worst.png");
+	peoples[7].loadFromFile("../Data/Images/TLOU/tommy-bad.png");
 	passports[0].loadFromFile("../Data/Images/TLOU/ellie-passport.png");
 	passports[1].loadFromFile("../Data/Images/TLOU/abby-passport.png");
 	passports[2].loadFromFile("../Data/Images/TLOU/joel-passport.png");
@@ -84,9 +83,10 @@ bool Game::init()
 	passport_rejected = false;
 	clicked_button = false;
 	show_text = false;
+	table_texture = std::make_unique<sf::Texture>();
 	table_texture->loadFromFile("../Data/Images/TLOU/table.png");
-	table = new sf::Sprite(*table_texture);
-	table->setPosition(sf::Vector2f(-50, window.getSize().y - 160));
+	table = std::make_unique<GameObject>(*table_texture);
+	table->GetSprite().setPosition(sf::Vector2f(-50, window.getSize().y - 160));
 	
 	result_text.makeText("You have guessed correctly!", font, 30, window.getSize().x / 2 - 100, window.getSize().y / 2 + 100);
 
@@ -125,7 +125,7 @@ void Game::render()
 			
 			window.draw(character->GetSprite());
 			window.draw(passport->GetSprite());
-			window.draw(*table);
+			window.draw(table->GetSprite());
 			if(passport_accepted == true){
 				accept_sprite->GetSprite().setPosition(sf::Vector2f(passport->GetSprite().getPosition().x, passport->GetSprite().getPosition().y));
 				window.draw(accept_sprite->GetSprite());

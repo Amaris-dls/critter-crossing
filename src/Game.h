@@ -60,7 +60,7 @@ class Game
   sf::Vector2f click_reject;
   sf::Vector2i mouse_position_control;
 
-  sf::Sprite* table;
+  unique_ptr<GameObject> table;
 
   sf::Sprite* dragged = nullptr;
   sf::Vector2i mouse_position;
