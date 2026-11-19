@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <format>
+#include "TextClass.h"
 using namespace std;
 
 class Game
@@ -34,8 +35,8 @@ class Game
   sf::Sprite* passport;
   sf::Texture* peoples = new sf::Texture[8];
   sf::Texture* passports = new sf::Texture[5];
-  sf::Text* start_button;
-  sf::Text* quit_button;
+  TextClass start_button;
+  TextClass quit_button;
   GameState state = MENU;
 
   sf::Texture* accept_button_texture;
@@ -66,16 +67,16 @@ class Game
   bool should_accept;
   bool clicked_button = false;  
 
-  sf::Text* result_text;
+  TextClass result_text;
   bool show_text = false;
 
   bool stamp_chosen;
 
-  sf::Text* timer_text;
+  TextClass timer_text;
   float time_remaining = 5.0f;
 
-  sf::Text* game_over_text;
-  sf::Text* restart_button;
+  TextClass game_over_text;
+  TextClass restart_button;
 
 
   //sf::Text* image_names = new sf::Text[8];

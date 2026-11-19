@@ -17,7 +17,6 @@ Game::~Game()
 	delete [] passports;
 	delete character;
 	delete passport;
-	delete result_text;
 	delete background_texture;
 	delete accept_button_texture;
 	delete reject_button_texture;
@@ -38,10 +37,8 @@ bool Game::init()
 		return false;
 	}
 
-	start_button = new sf::Text(*font, "START", 30);
-	quit_button = new sf::Text(*font, "QUIT", 30);
-	start_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2));
-	quit_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
+	start_button.makeText("START", font, 30, window.getSize().x / 2 - 100, window.getSize().y / 2);
+	quit_button.makeText("QUIT", font, 30, window.getSize().x / 2 - 100, window.getSize().y / 2 + 100);
 	ifstream file;
 	file.open("../src/characters.txt");
 	string path;
@@ -98,23 +95,16 @@ bool Game::init()
 	table = new sf::Sprite(*table_texture);
 	table->setPosition(sf::Vector2f(-50, window.getSize().y - 160));
 	
-	result_text = new sf::Text(*font, "You have guessed correctly!", 30);
-	//result_text->setFont(*font);
-	//result_text->setString("You have guessed correctly!");
-	result_text->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
+	result_text.makeText("You have guessed correctly!", font, 30, window.getSize().x / 2 - 100, window.getSize().y / 2 + 100);
 
 	stamp_chosen = false;
-
 
 	should_accept = false;
 	newAnimal();
 
-	timer_text = new sf::Text(*font, "Time: 5", 30);
-	//timer_text->setPosition({50.0f, 50.0f});
-	restart_button = new sf::Text(*font, "RESTART", 30);
-	restart_button->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2));
-	game_over_text = new sf::Text(*font, "GAME OVER", 30);
-	game_over_text->setPosition(sf::Vector2f(window.getSize().x / 2 - 100, window.getSize().y / 2 + 100));
+	timer_text.makeText("Time: 5", font, 30, 50, 50);
+	restart_button.makeText( "RESTART", font, 30, window.getSize().x / 2 - 100, window.getSize().y / 2);
+	game_over_text.makeText("GAME OVER", font, 30, window.getSize().x / 2 - 100, window.getSize().y / 2 + 100);
 
   return true;
 }
@@ -125,7 +115,7 @@ void Game::update(float dt)
 {
 	dragSprite(dragged);
 	time_remaining -= dt;
-	timer_text->setString(std::to_string(static_cast<int>(time_remaining)));
+	timer_text.getText()->setString(std::to_string(static_cast<int>(time_remaining)));
     if (time_remaining < 0.0f){
 		time_remaining = 0.0f;	
 		state = LOSE;
@@ -152,22 +142,22 @@ void Game::render()
 				window.draw(*reject_sprite);
 			}
 			if(show_text == true){
-				window.draw(*result_text);
+				window.draw(*result_text.getText());
 			}
-			window.draw(*timer_text);
+			window.draw(*timer_text.getText());
 			if(clicked_button == false){
 				window.draw(*accept_button);
 				window.draw(*reject_button);
 			}
 			break;
 		case MENU:
-			window.draw(*start_button);
-			window.draw(*quit_button);
+			window.draw(*start_button.getText());
+			window.draw(*quit_button.getText());
 			
 			break;
 		case LOSE:
-				window.draw(*game_over_text);
-				window.draw(*restart_button);
+				window.draw(*game_over_text.getText());
+				window.draw(*restart_button.getText());
 				/*passport_accepted = false;
 				passport_rejected = false;
 				clicked_button = false;
@@ -254,13 +244,13 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 			//clicked_button = true;
 			//passport_rejected = true;
 		}
-		 if (start_button->getGlobalBounds().contains(click)){
+		 if (start_button.getText()->getGlobalBounds().contains(click)){
 			 state = PLAY;
 		 }
-		 if (quit_button->getGlobalBounds().contains(click)){
+		 if (quit_button.getText()->getGlobalBounds().contains(click)){
 			 window.close();
 		 }
-		 if (restart_button->getGlobalBounds().contains(click)) {
+		 if (restart_button.getText()->getGlobalBounds().contains(click)) {
 			 std::cout << "restart clicked" << std::endl;
 			 state = PLAY;
 			 
@@ -287,11 +277,11 @@ void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 		if(dragged == passport && passport->getPosition().y < 100 && passport->getPosition().x < 100){
 			if(passport_accepted == true || passport_rejected == true){
 				if(should_accept){
-					result_text->setString("You have guessed correctly!");
+					result_text.getText()->setString("You have guessed correctly!");
 					show_text = true;
 				}
 				else{
-					result_text->setString("You have guessed incorrectly!");
+					result_text.getText()->setString("You have guessed incorrectly!");
 					show_text = true;
 				}
 				newAnimal();

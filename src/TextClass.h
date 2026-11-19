@@ -1,5 +1,4 @@
-#ifndef SFML_GAME_H
-#define SFML_GAME_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <string>
@@ -13,7 +12,5 @@ class TextClass
 		~TextClass();
 		bool makeText(string input, sf::Font* font, int size, int x, int y);
 		sf::Text* textSprite = nullptr;
-
-
+		sf::Text* getText();
 };
-#endif // SFML_GAME_H

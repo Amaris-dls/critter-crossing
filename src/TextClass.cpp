@@ -23,3 +23,7 @@ bool TextClass::makeText(string input, sf::Font* font, int size, int x, int y) {
 
     return true;
 }
+
+sf::Text* TextClass::getText() {
+    return textSprite;
+}
