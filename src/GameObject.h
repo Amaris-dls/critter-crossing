@@ -17,4 +17,4 @@ private:
 	unique_ptr<sf::Texture> texture;
 	bool isActive = true;
 
-}
+};

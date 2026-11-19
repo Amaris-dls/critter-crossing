@@ -36,8 +36,8 @@ class Game
 
   std::unique_ptr<GameObject> character;
   std::unique_ptr<GameObject> passport;
-  vector<std::unique_ptr<sf::Texture>> peoples;
-  vector<std::unique_ptr<sf::Texture>> passports;
+  std::unique_ptr<sf::Texture[]> peoples;
+  std::unique_ptr<sf::Texture[]> passports;
   //sf::Texture* passports = new sf::Texture[5];
   TextClass start_button;
   TextClass quit_button;
@@ -62,7 +62,7 @@ class Game
 
   sf::Sprite* table;
 
-  std::unique_ptr<sf::Sprite> dragged = nullptr;
+  sf::Sprite* dragged = nullptr;
   sf::Vector2i mouse_position;
   sf::Vector2f mouse_positionf;
   sf::Vector2f drag_offset;

@@ -16,7 +16,11 @@ FetchContent_MakeAvailable(SFML)    # Makes sure SFML and its dependencies are a
 
 #---- File management & .exe creation ----#
 
-set(SOURCE_FILES src/main.cpp src/Game.cpp src/Game.h)  # Sets variable SOURCE_FILES to hold names & locations of files that need to be compiled into the application
+set(SOURCE_FILES src/main.cpp src/Game.cpp src/Game.h src/GameManager.cpp 
+src/GameManager.h 
+src/characters.txt 
+src/TextClass.cpp 
+src/TextClass.h)  # Sets variable SOURCE_FILES to hold names & locations of files that need to be compiled into the application
 add_executable(SFMLGame ${SOURCE_FILES}
 src/GameManager.cpp 
 src/GameManager.h 

@@ -14,18 +14,6 @@ Game::Game(sf::RenderWindow& game_window)
 Game::~Game()
 {
 	delete font;
-	delete [] peoples;
-	delete [] passports;
-	delete character;
-	delete passport;
-	delete background_texture;
-	delete accept_button_texture;
-	delete reject_button_texture;
-	delete accept;
-	delete reject;
-	delete table_texture;
-	delete accept_button;
-	delete reject_button;
 	delete table;
 }
 
@@ -49,8 +37,8 @@ bool Game::init()
 		}
 		
 	}*/
-	peoples = std::make_unique<sf::Texture>();
-	passports = std::make_unique<sf::Texture>();
+	peoples = std::make_unique<sf::Texture[]>(8);
+	passports = std::make_unique<sf::Texture[]>(5);
 	peoples[0].loadFromFile("Data/Images/TLOU/ellie-best.png");
 	peoples[1].loadFromFile("Data/Images/TLOU/abby-best.png");
 	peoples[2].loadFromFile("Data/Images/TLOU/joel-best.png");
@@ -67,8 +55,8 @@ bool Game::init()
 
 	
 	
-	character = std::make_unique<GameObject>(peoples[0]);
-	passport = std::make_unique<GameObject>(passports[0]);
+	character = std::make_unique<GameObject>();
+	passport = std::make_unique<GameObject>();
 	background_texture = std::make_unique<sf::Texture>();
 	background_texture->loadFromFile("../Data/Images/TLOU/background.png");
 	background = std::make_unique<sf::Sprite>(*background_texture);
@@ -118,7 +106,7 @@ bool Game::init()
 // use it for everything that needs to update between frames
 void Game::update(float dt)
 {
-	dragSprite(*dragged);
+	dragSprite(dragged);
 	time_remaining -= dt;
 	timer_text.getText()->setString(std::to_string(static_cast<int>(time_remaining)));
     if (time_remaining < 0.0f){
@@ -135,24 +123,24 @@ void Game::render()
 	switch (state) {
 		case PLAY:
 			
-			window.draw(*character->GetSprite());
-			window.draw(*passport->GetSprite());
+			window.draw(character->GetSprite());
+			window.draw(passport->GetSprite());
 			window.draw(*table);
 			if(passport_accepted == true){
 				accept_sprite->GetSprite().setPosition(sf::Vector2f(passport->GetSprite().getPosition().x, passport->GetSprite().getPosition().y));
-				window.draw(*accept_sprite->GetSprite());
+				window.draw(accept_sprite->GetSprite());
 			}
 			if(passport_rejected == true){
 				reject_sprite->GetSprite().setPosition(sf::Vector2f(passport->GetSprite().getPosition().x, passport->GetSprite().getPosition().y));
-				window.draw(*reject_sprite->GetSprite());
+				window.draw(reject_sprite->GetSprite());
 			}
 			if(show_text == true){
 				window.draw(*result_text.getText());
 			}
 			window.draw(*timer_text.getText());
 			if(clicked_button == false){
-				window.draw(*accept_button->GetSprite());
-				window.draw(*reject_button->GetSprite());
+				window.draw(accept_button->GetSprite());
+				window.draw(reject_button->GetSprite());
 			}
 			break;
 		case MENU:
@@ -191,19 +179,19 @@ void Game::newAnimal() {
 		should_accept = false;
 	}
 	character->GetSprite().setTexture(peoples[animal_index], true);
-	character->setScale({ 0.9f, 0.9f });
+	character->GetSprite().setScale({ 0.9f, 0.9f });
 
 	const sf::FloatRect bounds = character->GetSprite().getGlobalBounds();
 	float characterHeight = bounds.size.y;
-	character->setPosition(sf::Vector2f(
+	character->GetSprite().setPosition(sf::Vector2f(
 		window.getSize().x / 12.f - 50.f,
 		window.getSize().y - characterHeight
 	));
 
-	passport->setTexture(passports[passport_index]);
-	passport->setScale({ 0.6f, 0.6f });
+	passport->GetSprite().setTexture(passports[passport_index]);
+	passport->GetSprite().setScale({ 0.6f, 0.6f });
 	//passport->setPosition(sf::Vector2(window.getSize().x / 2, window.getSize().y / 2));
-	passport->setPosition(sf::Vector2f(window.getSize().x / 2 , window.getSize().y / 2 -200));
+	passport->GetSprite().setPosition(sf::Vector2f(window.getSize().x / 2 , window.getSize().y / 2 -200));
 }
 
 void Game::dragSprite(sf::Sprite* sprite) {
@@ -234,17 +222,17 @@ void Game::mouseButtonPressed(const sf::Event::MouseButtonPressed* event)
 		mouse_position_control = sf::Mouse::getPosition(window);
 		if(passport->GetSprite().getGlobalBounds().contains(click)){
 			std::cout << "Passport clicked" << std::endl;
-			dragged = passport;
+			dragged = &passport->GetSprite();
 			drag_offset = click - passport->GetSprite().getPosition();
 		}
 		 if(accept_button->GetSprite().getGlobalBounds().contains(click_accept)){
-			dragged = accept_button;
+			dragged = &accept_button->GetSprite();
 			drag_offset = click_accept - accept_button->GetSprite().getPosition();
 			//clicked_button = true;
 			//passport_accepted = true;
 		}
 		 if(reject_button->GetSprite().getGlobalBounds().contains(click_reject)){
-			dragged = reject_button;
+			dragged = &reject_button->GetSprite();
 			drag_offset = click_reject - reject_button->GetSprite().getPosition();
 			//clicked_button = true;
 			//passport_rejected = true;
@@ -279,7 +267,7 @@ void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 	//Works the same as MouseButtonPressed
 	if (event->button == sf::Mouse::Button::Left)
 	{
-		if(dragged == passport && passport->GetSprite().getPosition().y < 100 && passport->GetSprite().getPosition().x < 100){
+		if(dragged == &passport->GetSprite() && passport->GetSprite().getPosition().y < 100 && passport->GetSprite().getPosition().x < 100){
 			if(passport_accepted == true || passport_rejected == true){
 				if(should_accept){
 					result_text.getText()->setString("You have guessed correctly!");
@@ -295,10 +283,10 @@ void Game::mouseButtonReleased(const sf::Event::MouseButtonReleased* event)
 				clicked_button = false;
 			}
 		}
-		if(dragged == accept_button || dragged == reject_button){
+		if(dragged == &accept_button->GetSprite() || dragged == &reject_button->GetSprite()){
 			click = static_cast<sf::Vector2f>(position);
 			if(passport->GetSprite().getGlobalBounds().contains(click)){
-				if(dragged == accept_button){
+				if(dragged == &accept_button->GetSprite()){
 					passport_accepted = true;
 				}
 				else{
